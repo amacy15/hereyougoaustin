@@ -1,0 +1,34 @@
+I added this function above Game-Loop at the bottom
+
+function getStabbed{
+
+    Write-Host "You've won 4 games in a row... you can tell the other players are getting suspicious. 
+                Suddenly you feel a sharp pain in your side. You've been stabbed! 
+                The last thing you see before it all fades away is a hand grabbing all of your money.
+                You knew it was a bad idea to play street dice..."
+
+    $script:money = 0
+}
+
+
+This code was added to the Resolve-Bet function after it increments the win streak.
+
+*******
+if($script:winstreak -eq 4)_{
+                getStabbed
+            }
+*******
+
+function Resolve-Bet() {
+    # Add or subtract the results of the bet from player money
+    switch ($script:result) {
+        win {
+            $script:winstreak += 1
+            if($script:winstreak -eq 4)_{
+                getStabbed
+            }
+            $script:money += $script:bet*2
+            Write-Gui "Lucky Winner! You won `$$($script:bet*2)"
+            Write-Host "[enter] to continue..."
+            $host.ui.ReadLine()    
+        }
